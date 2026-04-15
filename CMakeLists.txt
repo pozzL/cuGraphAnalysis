@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
+
+project(cuGraphAnalysis LANGUAGES CXX CUDA)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_CUDA_STANDARD 17)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+set(CMAKE_CUDA_ARCHITECTURES 75)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+file(GLOB SOURCES "*.cu" "*.cpp") #prende tutti i file cu e cpp e li mette come sources
+
+add_executable(${PROJECT_NAME} 
+  src/main.cpp
+  cuda/kernels.cu
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE 
+
+  ${CMAKE_CURRENT_SOURCE_DIR}/utils
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+find_package(CUDAToolkit REQUIRED)
