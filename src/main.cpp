@@ -91,7 +91,8 @@ int main() {
 
   std::cout << "CSR format generated" << std::endl;
 
-  //calls to all the kernels ecc
+  forwardBFS(h_graph); 
+  
 
   return 0;
 }
