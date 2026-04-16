@@ -11,7 +11,7 @@ set(CMAKE_CUDA_ARCHITECTURES 75)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-file(GLOB SOURCES "*.cu" "*.cpp") #prende tutti i file cu e cpp e li mette come sources
+file(GLOB SOURCES "*.cu" "*.cpp") 
 
 add_executable(${PROJECT_NAME} 
   src/main.cpp
