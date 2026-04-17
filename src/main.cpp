@@ -13,7 +13,7 @@ const std::string filename = "../graphs/dataset.txt";
 
 //should be parallelized later on 
 void buildRowPtr(const std::vector<std::pair<int, int>>& edges, 
-    int numNodes, std::vector<int>& rowPtr) {
+  int numNodes, std::vector<int>& rowPtr) {
   rowPtr.assign(numNodes + 1, 0);
   for (const auto& edge : edges) { //initialize the array for 
                                    //a[node] = number of connected
@@ -79,6 +79,9 @@ int main() {
 
   std::vector<int> h_rowPtr;
   std::vector<int> h_colInd;
+  std::vector<int> labels;
+  labels.assign(numNodes, -1);
+
 
   buildRowPtr(edges, numNodes, h_rowPtr);
   buildColInd(edges, h_rowPtr, h_colInd);
