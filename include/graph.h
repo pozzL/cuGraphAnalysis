@@ -9,4 +9,5 @@ struct GraphCsr {
   int* label; //will be used to assign the label for a node with BFS
 };
 
+
 #endif
