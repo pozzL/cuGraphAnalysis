@@ -64,7 +64,7 @@ void forwardBFS_kernel(int numCurrNodes, const int* d_rowPtr, const int* d_colIn
       d_sigmas[w] = d_sigmas[v];
 
       if(d_visited[w]==1) 
-        atomicAdd(d_sigmas[w],d_sigmas[v]);
+        atomicAdd(&d_sigmas[w],d_sigmas[v]);
       else {
         if (atomicCAS(&d_visited[w], 0, 1) == 0) {
           int winner = atomicAdd(&numCurrFrontier_s, 1);
@@ -169,7 +169,8 @@ extern "C" int Brandes(GraphCsr graph) {
                cudaMemcpyHostToDevice)
   );
 
-  CHECK_CUDA(cudaMemset(d_distances, 0, graph.numNodes * sizeof(int)));
+  CHECK_CUDA(cudaMemset(d_distances, -1, graph.numNodes * sizeof(int)));
+  CHECK_CUDA(cudaMemset(&d_distances[0], 0, sizeof(int)));
   CHECK_CUDA(cudaMemset(d_sigmas, 0, graph.numNodes * sizeof(int)));
 
 
@@ -207,7 +208,7 @@ extern "C" int Brandes(GraphCsr graph) {
   CHECK_CUDA(cudaMemset(d_frontierNext, 0, h_frontierCurrent.size()*sizeof(int)));
   CHECK_CUDA(cudaMemset(d_nextSize, 0, sizeof(int))); 
   CHECK_CUDA(cudaMemset(d_wave, 0, sizeof(int))); 
-  CHECK_CUDA(cudaMemset(d_sigmas[0], 1, sizeof(int)));
+  CHECK_CUDA(cudaMemset(&d_sigmas[0], 1, sizeof(int)));
 
 
   int numCurrNodes;
