@@ -6,14 +6,13 @@
 #include <string>
 #include <algorithm>
 #include "graph.h"
-#include "brandes.h"
 #include "cudaWrapper.h"
 
 const std::string filename = "../graphs/dataset.txt"; 
 
 //should be parallelized later on 
 void buildRowPtr(const std::vector<std::pair<int, int>>& edges, 
-  int numNodes, std::vector<int>& rowPtr) {
+                 int numNodes, std::vector<int>& rowPtr) {
   rowPtr.assign(numNodes + 1, 0);
   for (const auto& edge : edges) { //initialize the array for 
                                    //a[node] = number of connected
@@ -27,7 +26,7 @@ void buildRowPtr(const std::vector<std::pair<int, int>>& edges,
 
 //should be parellelized later on
 void buildColInd(const std::vector<std::pair<int, int>>& edges, 
-    const std::vector<int>& rowPtr, std::vector<int>& colInd) {
+                 const std::vector<int>& rowPtr, std::vector<int>& colInd) {
   colInd.resize(edges.size());
   std::vector<int> currentPos = rowPtr;
   for (const auto& edge : edges) {
@@ -39,7 +38,7 @@ void buildColInd(const std::vector<std::pair<int, int>>& edges,
 }
 
 void readSNAPFile(const std::string& filename, std::vector<std::pair<int, 
-    int>>& edges, int& numNodes) {
+                  int>>& edges, int& numNodes) {
   std::ifstream file(filename);
   if (!file.is_open()) {
     std::cerr << "Error opening the file" << filename << std::endl;
@@ -86,15 +85,17 @@ int main() {
   buildRowPtr(edges, numNodes, h_rowPtr);
   buildColInd(edges, h_rowPtr, h_colInd);
 
+
   GraphCsr h_graph;
   h_graph.numNodes = numNodes;
   h_graph.numEdges = edges.size();
   h_graph.rowPtr = h_rowPtr.data();
   h_graph.colInd = h_colInd.data();
 
-  std::cout << "CSR format generated" << std::endl;
+  std::cout << "Graph builded using CSR format, number of nodes " << h_graph.numNodes << 
+               "Number of edges " << h_graph.numEdges << std::endl;
 
-  forwardBFS(h_graph); 
+  Brandes(h_graph); 
   
 
   return 0;

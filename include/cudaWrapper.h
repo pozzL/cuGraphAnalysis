@@ -1,4 +1,5 @@
 #pragma once 
+#include "graph.h"
 extern "C" {
-  int Brandes();
+  int Brandes(GraphCsr graph);
 }
