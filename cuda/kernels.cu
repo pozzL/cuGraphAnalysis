@@ -140,10 +140,10 @@ extern "C" int Brandes(GraphCsr graph) {
   bool visitedStateOnDevice = false;
   int h_wave = 1;
 
-  //initializing CPU variables
-  h_sigmas[0] = 1.0;
-  h_distances[0] = 0;
-  h_frontierCurrent.push_back(0); 
+  //initializing CPU variables DEPENDS ON THE GRAPH BE CAREFUL!!
+  h_sigmas[1] = 1.0;
+  h_distances[1] = 0;
+  h_frontierCurrent.push_back(1); 
 
   //allocating GPU variables
   int* d_rowPtr;
