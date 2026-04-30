@@ -8,7 +8,7 @@
 #include "graph.h"
 #include "cudaWrapper.h"
 
-const std::string filename = "../graphs/dataset.txt"; 
+const std::string filename = "../graphs/dataset2.txt"; 
 
 //should be parallelized later on 
 void buildRowPtr(const std::vector<std::pair<int, int>>& edges, 
